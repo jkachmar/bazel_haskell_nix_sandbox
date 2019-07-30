@@ -32,7 +32,7 @@ Run `direnv allow` to allow `direnv` to autoload the repository's `.envrc`.
 
 From the repository root, run `bazel build //...` to build the project.
 
-From the repository root, run `bazel run //example:example` to run the project.
+From the repository root, run `bazel run //example:example_main` to run the project.
 
 ## Why?
 
