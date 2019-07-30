@@ -17,8 +17,6 @@ mkShell {
     bazel
     # For stack_install.
     stack
-    # Needed for @com_github_golang_protobuf, itself needed by buildifier.
-    git
     # Needed to get correct locale for tests with encoding
     glibcLocales
     # to avoid CA certificate failures on macOS CI
