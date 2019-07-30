@@ -1,5 +1,9 @@
 module Main where
 
-import Prelude (putStrLn)
+import RIO
+import RIO.Prelude.Simple (runSimpleApp)
 
-main = putStrLn "Hello from rules_haskell!"
+import Entrypoint (app)
+
+main :: IO ()
+main = runSimpleApp app

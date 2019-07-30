@@ -58,3 +58,18 @@ haskell_register_ghc_nixpkgs(
 
 load("@rules_haskell//haskell:repositories.bzl", "rules_haskell_toolchains")
 rules_haskell_toolchains()
+
+# Select a Stackage snapshot to source Haskell
+# dependencies from
+load("@rules_haskell//haskell:cabal.bzl", "stack_snapshot")
+stack_snapshot(
+    name = "snapshot",
+    packages = [
+        # Core libraries
+        "base",
+        "text",
+        # Snapshot libraries
+        "rio",
+    ],
+    local_snapshot = "//:snapshot.yaml",
+)

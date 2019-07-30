@@ -4,30 +4,36 @@ package(default_visibility = ["//visibility:public"])
 # Load `rules_haskell` rules.
 load(
     "@rules_haskell//haskell:defs.bzl",
-    "haskell_toolchain_library",
     "haskell_library",
     "haskell_binary",
 )
 
-# `haskell_toolchain_library` can access builtin GHC packages
-# and assign them a bazel target name, so that they
-# can be referenced as dependencies.
-haskell_toolchain_library(name = "base")
+# Share a list of compiler flags between the library and
+# the executable
+shared_compiler_flags = [
+    "-XNoImplicitPrelude",
+    "-XOverloadedStrings",
+]
 
-# You can add your own libraries with `haskell_library`.
-# haskell_library(
-#     name = "MY_LIBRARY_NAME",
-#     src_strip_prefix = "src",
-#     srcs = glob(['src/**/*.hs']),
-#     deps = [
-#         "base_pkg"
-#     ],
-# )
+haskell_library(
+    name = "example_lib",
+    src_strip_prefix = "library",
+    srcs = glob(['library/**/*.hs']),
 
-# An example binary using the Prelude module from the
-# GHC base package, to print the hello world.
+    compiler_flags = shared_compiler_flags,
+    deps = [
+        "@snapshot//:rio",
+    ],
+)
+
 haskell_binary(
-    name = "example",
+    name = "example_main",
     srcs = [":executables/Main.hs"],
-    deps = [":base"],
+
+    compiler_flags = shared_compiler_flags,
+    deps = [
+        "@snapshot//:rio",
+        # Project libraries
+        ":example_lib",
+    ],
 )
